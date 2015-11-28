@@ -32,20 +32,21 @@
             <div class="row" id="searchBar">
                 <div class="col-sm-4"></div>
                 <!--Search bar-->
-                <div class ="col-sm-4">
-                    <form name="Search" action="RecipePage.jsp" method="POST">
-                        <input type="text" name="searchBar" style="width:100%">
-                    </form>
+                
+                <form name="Search" action="RecipePage.jsp" method="POST">
+                    <div class ="col-sm-4">
+                        <input id="searchBar" type="text" name="searchBar" >
+                    </div>
+                    <!--Search button-->
+                    <div class="col-sm-1" >
+                        <input id="searchButton" class="btn btn-sm btn-info" type="submit" value="Search" name="Search" />
+                    </div>
+                </form>
+                
+                <div class="col-sm-1">
+                    <input id ="addRecipeButton" class="btn btn-sm btn-info" type="button" value="Add recipe" name="addRecipe" />
                 </div>
-                <!--Search button-->
-                <div class="col-xs-1">
-                    hi
-                    
-                </div>
-                <div class="col-xs-1">
-                    hi
-                    
-                </div>
+                
             </div>
 
         </div>

@@ -25,5 +25,18 @@ body{
 }
 
 .row{
-    font-size: 28px;
+    
+}
+
+#searchBar{
+   width:100%;
+   font-size:1.5em;
+}
+
+#searchButton{
+    font-size: 1em;
+}
+#addRecipeButton{
+    font-size:1em;
+    
 }

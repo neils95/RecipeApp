@@ -12,6 +12,9 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <%
+            String ingredient = request.getParameter("searchBar");
+        %>
+        <h1><%=ingredient%></h1>
     </body>
 </html>
