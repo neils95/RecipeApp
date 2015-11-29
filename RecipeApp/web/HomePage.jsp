@@ -46,7 +46,6 @@
                 <div class="col-sm-1">
                     <input id ="addRecipeButton" class="btn btn-sm btn-info" type="button" value="Add recipe" name="addRecipe" />
                 </div>
-                
             </div>
 
         </div>
