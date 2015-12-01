@@ -1,0 +1,31 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 29, 2015, 9:27:53 PM
+    Author     : Neil
+*/
+
+body{
+    background-image: url("recipePageBackground.jpg");
+}
+
+.jumbotron{
+    background-color:#FFFFCC;
+}
+
+#heading{
+    text-align: center;
+    margin-bottom:0px;
+}
+
+#caption{
+    text-align:center; 
+    margin:0px;
+}
+
+#insertRecipeBox{
+    padding:5% 25% 0% 25%;
+}

@@ -44,7 +44,9 @@
                 </form>
                 
                 <div class="col-sm-1">
-                    <input id ="addRecipeButton" class="btn btn-sm btn-info" type="button" value="Add recipe" name="addRecipe" />
+                    <a href="InsertRecipePage.jsp">
+                        <input id ="addRecipeButton" class="btn btn-sm btn-info" type="button" value="Add recipe" name="addRecipe" />
+                    </a>
                 </div>
             </div>
 

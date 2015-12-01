@@ -30,6 +30,7 @@
         ArrayList<RecipeNode> r = new ArrayList<RecipeNode>();
 
         String str = request.getParameter("searchBar");
+       
 
         //System.out.println("With initial set:");
         r = t.getRecipes(str);
