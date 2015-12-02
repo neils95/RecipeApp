@@ -28,20 +28,25 @@ import javax.servlet.http.HttpServletResponse;
  
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   String Suggestions=null;
-  ArrayList <String> IngredientSuggestionList = new ArrayList();
-  
+  ArrayList <IngredientNode> IngredientSuggestionList = new ArrayList();
+  ArrayList<String> IngredientSuggestions =new ArrayList();
   IngredientsTable t = new IngredientsTable("MasterRecipeList.txt");
  
   String prefix =request.getParameter("user");
   
-  IngredientSuggestionList = t.setOfIngredientNames.suggest(prefix);
+  IngredientSuggestionList = t.getTopIngredients(t.setOfIngredientNames.suggest(prefix));
+  
+  
   
   if(request.getParameter("user").toString().equals("")){
    Suggestions="Ingredient suggestions will appear here";
   }
   response.setContentType("Array");  
   response.setCharacterEncoding("UTF-8"); 
-  response.getWriter().write(IngredientSuggestionList.toString()); 
+  for(IngredientNode ingredient:IngredientSuggestionList){
+      response.getWriter().write( ingredient.getName()+"{"+ingredient.getRank()+"}, ");
+  }
+  
  }
 
   

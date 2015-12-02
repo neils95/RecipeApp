@@ -106,7 +106,7 @@
                     <div class ="col-sm-4">
                        
                         <input id="user" type="text"  name="user"/>
-                        <strong><h4 class="alert alert-success">Ingredient Suggestions: <div id="IngredientSuggestions"></div></h4></strong>
+                        <strong><h4 class="alert alert-success"><u>Ingredient Suggestions:</u> <div id="IngredientSuggestions"></div></h4></strong>
                     </div>
                     <!--Search button-->
                     <div class="col-sm-1" >

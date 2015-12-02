@@ -62,7 +62,7 @@ public class Driver {
 		// }
 
 		System.out.println("\n");
-		for (String s : t.setOfIngredientNames.suggest(str.substring(0, 3))) System.out.println(s);
+		for (String s : t.setOfIngredientNames.suggest(str.substring(0, 2))) System.out.println(s);
 
 
 	}
