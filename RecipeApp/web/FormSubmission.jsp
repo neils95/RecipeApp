@@ -73,6 +73,19 @@
         IngredientsTable t = new IngredientsTable("MasterRecipeList.txt");
         t.insertRecipesFromFile(saveFile);
         
+        try{
+         FileOutputStream fileOut =new FileOutputStream("IngredientTableSerialized.ser");
+         ObjectOutputStream SerializeFile = new ObjectOutputStream(fileOut);
+         SerializeFile.writeObject(t);
+         SerializeFile.close();
+         fileOut.close();
+         System.out.printf("Serialized data is saved in /tmp/employee.ser");
+         }
+        catch(IOException i){
+          i.printStackTrace();
+        }
+
+        
     %>
     <body style="background-image: url(recipePageBackground.jpg)">
         <div class="well well-sm" style="margin:15% 20% 0% 20%;border:dashed blueviolet"><center>

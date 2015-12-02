@@ -3,7 +3,8 @@
     Created on : Nov 27, 2015, 9:16:27 PM
     Author     : Neil
 --%>
-
+<%@page import="java.util.ArrayList"%>
+<%@page import="Backend.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,6 +21,16 @@
         
         <title>RecipeApp</title>
     </head>
+    
+    <%
+        IngredientsTable t = new IngredientsTable("MasterRecipeList.txt");
+        //IngredientsTable t = new IngredientsTable();
+
+        ArrayList<RecipeNode> r = new ArrayList<RecipeNode>();
+
+        r=t.getTopRecipes();
+    %>
+    
     <body>
         <div class="container-fluid">
             <!--Heading of page-->
@@ -29,8 +40,41 @@
             </div>
            
             <!--Search bar, buttons for search and insert-->
+            
             <div class="row" id="searchBar">
-                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    
+                    <div class="panel-group" id="accordion" >
+                
+                    <%
+                        String collapse="collapse";
+                        int i= 0;
+                        for (RecipeNode rn : r){
+                            collapse="collapse"+i;
+                            i++;
+
+
+                        //System.out.println(Recipes);
+                    %>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#<%=collapse%>"><%=i%>. <%= rn.getName()%></a>
+                          </h4>
+                        </div>
+                        <div id="<%=collapse%>" class="panel-collapse collapse">
+                          <div class="panel-body">
+                                <pre style="font-size: 0.5em"> <%=rn.getContents()%></pre>
+                        </div>
+                        </div>
+                    </div>
+                    <%
+
+                        }
+                    %>
+                    </div><!--end of panel group-->
+                    
+                </div>
                 <!--Search bar-->
                 
                 <form name="Search" action="RecipePage.jsp" method="POST">

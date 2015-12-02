@@ -1,5 +1,3 @@
-package Backend;
-
 /* Joshua Klein
  * 11/8/15
  * ENG EC504
@@ -13,43 +11,38 @@ package Backend;
  * all of the recipe nodes.
  * 
  */
-
+package Backend;
 import java.io.*;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.PriorityQueue;
 import java.util.ArrayList;
 import java.util.Comparator;
-//Potential built-in maps/tables to use
-// import java.util.Dictionary;
-// import java.util.HashMap;
-// import java.util.HashSet;
 import java.util.Hashtable;
-// import java.util.IdentityHashMap;
-// import java.util.LinkedHashMap;
-// import java.util.LinkedHashSet;
-// import java.util.TreeMap;
-// import java.util.WeakHashMap;
 
-public class IngredientsTable {
+public class IngredientsTable{
 
 	public Hashtable<String, IngredientNode> setOfIngredients;
-	public PriorityQueue<RecipeNode> setOfRecipes; 
+	public PriorityQueue<RecipeNode> setOfRecipes;
 	public Trie setOfIngredientNames;
+	public ArrayList<RecipeNode> topRecipes;
 
 	//Constructor
 	public IngredientsTable() {
 		//Sets initial capacity and load factor for hash table, and initializes min heap
-		setOfIngredients = new Hashtable<String, IngredientNode>(7919/*, 0.5*/);
+		setOfIngredients = new Hashtable<String, IngredientNode>(7919, (float)0.9);
 		setOfRecipes = new PriorityQueue<RecipeNode>(1024, RecipeNode.c);
-		setOfIngredientNames = new Trie();
+		//setOfIngredientNames = new Trie();
+		topRecipes = new ArrayList<RecipeNode>();
 	}
 
 	//Constructor with initial file; includes file handling
 	public IngredientsTable(String fileName) {
 		//Sets initial capacity and load factor for hash table, and initializes min heap
-		setOfIngredients = new Hashtable<String, IngredientNode>(7919/*, 0.5*/);
+		setOfIngredients = new Hashtable<String, IngredientNode>(7919, (float)0.9);
 		setOfRecipes = new PriorityQueue<RecipeNode>(1024, RecipeNode.c);
 		setOfIngredientNames = new Trie();
+		topRecipes = new ArrayList<RecipeNode>();
 
 		//Formats and inserts recipes from file, if it exists
 		//Note that the format for the initial list is different
@@ -75,7 +68,7 @@ public class IngredientsTable {
 						state++;
 					} break;
 					case 1: if (line.contains("Rating:")) state++; break;
-					case 2: rrating = Integer.parseInt(line); state++; break;
+					case 2: rrating = Integer.parseInt(line)+1; state++; break;
 					case 3: 
 						if (line.contains("Ingredients")) {
 							state++;
@@ -96,10 +89,14 @@ public class IngredientsTable {
 							for (IngredientNode i : a) {
 								i.insertRecipe(r);
 								setOfIngredientNames.insertString(i.getName());
+								r.ingredientsList.add(i);
 							}
 							insertRecipe(r, a);
 							recipeContents = "";
 							state = 0;
+							topRecipes.add(r);
+							Collections.sort(topRecipes, new RecipeComparator());
+							if (topRecipes.size() > 8) topRecipes.remove(8);	
 						} break;
 				}
 			}
@@ -121,9 +118,11 @@ public class IngredientsTable {
 
 		//Adds recipe's ingredients to table
 		for (IngredientNode i : a) {
-			if (setOfIngredients.get(i.getName()) == null) setOfIngredients.put(i.getName(), i);
-			else setOfIngredients.get(i.getName()).insertRecipe(r);
-		}
+			if (setOfIngredients.get(i.getName()) == null) {
+				setOfIngredients.put(i.getName(), i);
+				setOfIngredients.get(i.getName()).rank += r.getRank();
+			} else setOfIngredients.get(i.getName()).insertRecipe(r);
+		} 
 	}
 
 	//Retrieves file if it exists and adds recipes from file to table
@@ -151,7 +150,7 @@ public class IngredientsTable {
 						state++;
 					} break;
 					case 1: if (line.contains("Rating:")) state++; break;
-					case 2: rrating = Integer.parseInt(line); state++; break;
+					case 2: rrating = Integer.parseInt(line)+1; state++; break;
 					case 3: 
 						if (line.contains("Ingredients")) {
 							state++;
@@ -172,10 +171,14 @@ public class IngredientsTable {
 							for (IngredientNode i : a) {
 								i.insertRecipe(r);
 								setOfIngredientNames.insertString(i.getName());
+								r.ingredientsList.add(i);
 							}
 							insertDelRecipe(r, a);
 							recipeContents = "";
 							state = 0;
+							topRecipes.add(r);
+							Collections.sort(topRecipes, new RecipeComparator());
+							if (topRecipes.size() > 8) topRecipes.remove(8);
 						} break;
 				}
 			}
@@ -192,8 +195,12 @@ public class IngredientsTable {
 	public void insertDelRecipe(RecipeNode r, ArrayList<IngredientNode> a) {
 		if (setOfRecipes.peek().getRank() < r.getRank()) {
 			//Adds recipe to PQueue and removes head
-			setOfRecipes.poll();
+			RecipeNode deletedRecipe = setOfRecipes.poll();
 			setOfRecipes.add(r);
+
+			//Adjusts ingredient ranks for newly deleted recipe
+			for (IngredientNode i : deletedRecipe.ingredientsList)
+				setOfIngredients.get(i.getName()).rank -= deletedRecipe.getRank();
 
 			//Adds recipe's ingredients to table
 			for (IngredientNode i : a) {
@@ -205,6 +212,24 @@ public class IngredientsTable {
 
 	//Returns AL containing recipes that have specified ingredient
 	public ArrayList<RecipeNode> getRecipes(String ingredientName) {
-		return setOfIngredients.get(ingredientName).getRecipes();
+		try {
+			return setOfIngredients.get(ingredientName).getRecipes();
+		} catch (NullPointerException e) {
+			System.out.println("Ingredient not found!");
+			return null;
+		}
 	}
+
+	//Returns AL containing top 8 recipes
+	public ArrayList<RecipeNode> getTopRecipes() 
+	{return topRecipes;}
+
+	public static class RecipeComparator implements Comparator<RecipeNode> {
+            @Override
+            public int compare(RecipeNode a, RecipeNode b) {
+                    if (a.getRank() < b.getRank()) return 1;
+                    return -1;
+            }
+        }
 }
+

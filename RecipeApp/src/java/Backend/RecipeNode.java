@@ -1,5 +1,3 @@
-package Backend;
-
 /* Joshua Klein
  * 11/8/15
  * ENG EC504
@@ -12,19 +10,22 @@ package Backend;
  * rank is given arbitrarily when the recipe is created.
  * 
  */
-
+package Backend;
 import java.util.Comparator;
+import java.util.ArrayList;
 
 public class RecipeNode{
 
 		private int rank;
 		private String recipeName, contentsString;
+		public ArrayList<IngredientNode> ingredientsList;
 
 		//Constructors
 		public RecipeNode(String recipeName, int rank, String contentsString) {
 			this.recipeName = recipeName;
 			this.contentsString = contentsString;
 			this.rank = rank;
+			this.ingredientsList = new ArrayList<IngredientNode>();
 		}
 
 		//Returns contentsString (with recipe's name, directions, etc)
@@ -41,11 +42,15 @@ public class RecipeNode{
 
 		//For Comparator use with standard java library (necessary 
 		//for using java's built-in priority queue)
-		public static Comparator<RecipeNode> c = new Comparator<RecipeNode>(){
+                
+		public static Comparator<RecipeNode> c = new Comparator<RecipeNode>() {
 			@Override
 			public int compare(RecipeNode a, RecipeNode b) {
 				if (a.getRank() < b.getRank()) return -1;
 				return 1;
 			}
 		};
+                
+                
+
 	}
