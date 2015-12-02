@@ -12,9 +12,6 @@
  * 
  */
 package Backend;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.*;
 
 public class Driver {
@@ -23,7 +20,7 @@ public class Driver {
 
 		//Tests ingredients table
 		IngredientsTable t = new IngredientsTable("MasterRecipeList.txt");
-               
+
 		ArrayList<RecipeNode> r = new ArrayList<RecipeNode>();
 
 		System.out.println("Enter ingredient:");
@@ -49,6 +46,24 @@ public class Driver {
 			System.out.print(rn.getName());
 			System.out.println(" "+rn.getRank());
 		}
-               
-        }
+
+		t.writePQToMaster("MasterRecipeList.txt");
+
+		// ArrayList<String> a = new ArrayList<String>();
+		// a.add("salsa"); a.add("bean"); a.add("chocolate");
+		// a.add("pepper"); a.add("pork"); 
+
+		// for (IngredientNode i : t.getTopIngredients(a)) System.out.println(i.getName()+" "+i.getRank());
+
+		// System.out.println("\nTop 8 recipes:");
+		// for (RecipeNode rn : t.getTopRecipes()) {
+		// 	System.out.print(rn.getName());
+		// 	System.out.println(" "+rn.getRank());
+		// }
+
+		System.out.println("\n");
+		for (String s : t.setOfIngredientNames.suggest(str.substring(0, 3))) System.out.println(s);
+
+
+	}
 }

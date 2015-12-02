@@ -35,7 +35,7 @@
 
                     $.get('ActionServlet',{user:username},function(responseText) { 
 
-                        $('#welcometext').text(responseText);         
+                        $('#IngredientSuggestions').text(responseText);         
 
                     });
 
@@ -104,32 +104,27 @@
                 
                 <form name="Search" action="RecipePage.jsp" method="POST">
                     <div class ="col-sm-4">
-                        <input id="searchBar" type="text" name="searchBar" >
+                       
+                        <input id="user" type="text"  name="user"/>
+                        <strong><h4 class="alert alert-success">Ingredient Suggestions: <div id="IngredientSuggestions"></div></h4></strong>
                     </div>
                     <!--Search button-->
                     <div class="col-sm-1" >
-                        <input id="searchButton" class="btn btn-sm btn-info" type="submit" value="Search" name="Search" />
+                        <input id="searchButton" class="btn btn-lg btn-info" type="submit" value="Search" name="Search" />
                     </div>
                 </form>
                 
                 <div class="col-sm-1">
                     <a href="InsertRecipePage.jsp">
-                        <input id ="addRecipeButton" class="btn btn-sm btn-info" type="button" value="Add recipe" name="addRecipe" />
+                        <input id ="addRecipeButton" class="btn btn-lg btn-info" type="button" value="Add recipe" name="addRecipe" />
                     </a>
                 </div>
             </div>
             <div>
-                <form id="form1">
                 
-                <input type="text" id="user"/>
                 
-                <input type="button" id="submit" value="Ajax Submit"/>
-
-                <br/>
-
-                <div id="welcometext"></div>
-                    recipe changes will show here
-                </form>
+                
+               
             </div>
                         
             

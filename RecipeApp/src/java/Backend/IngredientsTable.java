@@ -1,3 +1,4 @@
+package Backend;
 /* Joshua Klein
  * 11/8/15
  * ENG EC504
@@ -11,16 +12,17 @@
  * all of the recipe nodes.
  * 
  */
-package Backend;
+
 import java.io.*;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.PriorityQueue;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Hashtable;
 
-public class IngredientsTable{
+public class IngredientsTable {
 
 	public Hashtable<String, IngredientNode> setOfIngredients;
 	public PriorityQueue<RecipeNode> setOfRecipes;
@@ -32,7 +34,7 @@ public class IngredientsTable{
 		//Sets initial capacity and load factor for hash table, and initializes min heap
 		setOfIngredients = new Hashtable<String, IngredientNode>(7919, (float)0.9);
 		setOfRecipes = new PriorityQueue<RecipeNode>(1024, RecipeNode.c);
-		//setOfIngredientNames = new Trie();
+		setOfIngredientNames = new Trie();
 		topRecipes = new ArrayList<RecipeNode>();
 	}
 
@@ -78,8 +80,8 @@ public class IngredientsTable{
 						if (line.contains("Directions")) state++;
 						else {
 							for (String w : line.split("\\s+")) {
-								if (!w.matches(".*\\d.*")) {
-									a.add(ingNode = new IngredientNode(w.toLowerCase()));
+								if (!w.matches("[^\\w']+")) {
+									a.add(ingNode = new IngredientNode(w.replaceAll("[^a-zA-Z0-9\\s]", "").toLowerCase()));
 								}
 							}
 						} break;
@@ -88,7 +90,7 @@ public class IngredientsTable{
 							r = new RecipeNode(rname, rrating, recipeContents);
 							for (IngredientNode i : a) {
 								i.insertRecipe(r);
-								setOfIngredientNames.insertString(i.getName());
+								setOfIngredientNames.add(i.getName());
 								r.ingredientsList.add(i);
 							}
 							insertRecipe(r, a);
@@ -160,8 +162,8 @@ public class IngredientsTable{
 						if (line.contains("Directions")) state++;
 						else {
 							for (String w : line.split("\\s+")) {
-								if (!w.matches(".*\\d.*")) {
-									a.add(ingNode = new IngredientNode(w.toLowerCase()));
+								if (!w.matches("[^\\w']+")) {
+									a.add(ingNode = new IngredientNode(w.replaceAll("[^a-zA-Z0-9\\s]", "").toLowerCase()));
 								}
 							}
 						} break;
@@ -170,7 +172,7 @@ public class IngredientsTable{
 							r = new RecipeNode(rname, rrating, recipeContents);
 							for (IngredientNode i : a) {
 								i.insertRecipe(r);
-								setOfIngredientNames.insertString(i.getName());
+								setOfIngredientNames.add(i.getName());
 								r.ingredientsList.add(i);
 							}
 							insertDelRecipe(r, a);
@@ -199,8 +201,15 @@ public class IngredientsTable{
 			setOfRecipes.add(r);
 
 			//Adjusts ingredient ranks for newly deleted recipe
-			for (IngredientNode i : deletedRecipe.ingredientsList)
+			//Also removes ingredient node and name from trie if size of 
+			//recipesList in node is 0 (aka, no recipes have that ingredient)
+			for (IngredientNode i : deletedRecipe.ingredientsList) {
 				setOfIngredients.get(i.getName()).rank -= deletedRecipe.getRank();
+				if (i.getRecipes().size() == 0) {
+					setOfIngredientNames.remove(i.getName());
+					setOfIngredients.remove(i.getName());
+				}
+			}
 
 			//Adds recipe's ingredients to table
 			for (IngredientNode i : a) {
@@ -220,16 +229,65 @@ public class IngredientsTable{
 		}
 	}
 
+	//Rewrites recipes to master list from current PQ
+	//NOTE: Assumes file ALREADY EXISTS
+	public void writePQToMaster(String fileName) {
+		try {
+			//Set up file for overwriting
+			File f = new File(fileName);
+			f.createNewFile();
+			FileWriter master = new FileWriter(f, false);
+
+			//Gets PQ iterator
+			Iterator<RecipeNode> i = setOfRecipes.iterator();
+
+			//Writes to file using iterator
+			RecipeNode r;
+			while (i.hasNext()) {
+				r = i.next();
+				master.write(r.getContents());
+			}
+
+			master.close();
+
+
+		} catch (IOException e) {
+			System.out.println("IOException occured!");
+		}
+	}
+
+	//Returns AL containing top 5 ingredients with given list of prefixes
+	public ArrayList<IngredientNode> getTopIngredients(ArrayList<String> a) {
+		//Instantiates PQ
+		PriorityQueue<IngredientNode> top = new PriorityQueue<IngredientNode>(5, IngredientNode.c);
+
+		//Adds every ingredient with names from string list in min heap
+		for (String s : a) 
+			if (setOfIngredients.get(s) != null) 
+				top.add(setOfIngredients.get(s));
+
+		//Removes head of PQ until only 5 items (top rated) remain
+		while (top.size() > 5) top.poll();
+
+		//Adds items from PQ into ArrayList for return
+		ArrayList<IngredientNode> topIngredients = new ArrayList<IngredientNode>();
+
+		IngredientNode i;
+		while ((i = top.poll()) != null) topIngredients.add(0, i);
+
+		return topIngredients;
+	}
+
 	//Returns AL containing top 8 recipes
 	public ArrayList<RecipeNode> getTopRecipes() 
 	{return topRecipes;}
 
 	public static class RecipeComparator implements Comparator<RecipeNode> {
-            @Override
-            public int compare(RecipeNode a, RecipeNode b) {
-                    if (a.getRank() < b.getRank()) return 1;
-                    return -1;
-            }
-        }
+			@Override
+			public int compare(RecipeNode a, RecipeNode b) {
+				if (a.getRank() < b.getRank()) return 1;
+				return -1;
+			}
+		}
 }
 

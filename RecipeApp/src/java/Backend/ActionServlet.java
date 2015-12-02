@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 
  public class ActionServlet extends HttpServlet {
  private static final long serialVersionUID = 1L;
- ArrayList <String> list = new ArrayList();
 
  
  public ActionServlet() {
@@ -28,19 +27,21 @@ import javax.servlet.http.HttpServletResponse;
     }
  
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-  String name=null;
+  String Suggestions=null;
+  ArrayList <String> IngredientSuggestionList = new ArrayList();
   
+  IngredientsTable t = new IngredientsTable("MasterRecipeList.txt");
+ 
+  String prefix =request.getParameter("user");
   
-  list.add(request.getParameter("user"));
-  name = "Hello "+request.getParameter("user");
+  IngredientSuggestionList = t.setOfIngredientNames.suggest(prefix);
+  
   if(request.getParameter("user").toString().equals("")){
-   name="Hello User";
+   Suggestions="Ingredient suggestions will appear here";
   }
   response.setContentType("Array");  
   response.setCharacterEncoding("UTF-8"); 
-  response.getWriter().write(list.toString()); 
-
-  
+  response.getWriter().write(IngredientSuggestionList.toString()); 
  }
 
   

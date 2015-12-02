@@ -1,3 +1,4 @@
+package Backend;
 /* Joshua Klein
  * 11/8/15
  * ENG EC504
@@ -11,12 +12,12 @@
  * the ingredient in it.
  * 
  */
-package Backend;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class IngredientNode {
+public class IngredientNode{
 		
 		private ArrayList<RecipeNode> recipesList;
 		public int rank;
@@ -68,6 +69,16 @@ public class IngredientNode {
 				}
 			}	
 		}
+
+		//For Comparator use with standard java library (necessary 
+		//for using java's built-in priority queue)
+		public static Comparator<IngredientNode> c = new Comparator<IngredientNode>(){
+			@Override
+			public int compare(IngredientNode a, IngredientNode b) {
+				if (a.getRank() < b.getRank()) return -1;
+				return 1;
+			}
+		};
 
 		public static class RecipeComparator implements Comparator<RecipeNode> {
 			@Override
