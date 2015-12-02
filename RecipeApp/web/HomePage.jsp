@@ -16,10 +16,35 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         
+        
         <!--link to home page CSS-->
         <link rel="stylesheet" href="HomePage.css">
         
+        
         <title>RecipeApp</title>
+        <script src="http://code.jquery.com/jquery-latest.js">   
+        </script>
+
+        <script>
+
+            $(document).ready(function() {                        
+
+                $('#user').keyup(function(event) {  
+
+                    var username=$('#user').val();
+
+                    $.get('ActionServlet',{user:username},function(responseText) { 
+
+                        $('#welcometext').text(responseText);         
+
+                    });
+
+                });
+
+            });
+
+        </script>
+        
     </head>
     
     <%
@@ -93,7 +118,23 @@
                     </a>
                 </div>
             </div>
+            <div>
+                <form id="form1">
+                
+                <input type="text" id="user"/>
+                
+                <input type="button" id="submit" value="Ajax Submit"/>
 
+                <br/>
+
+                <div id="welcometext"></div>
+                    recipe changes will show here
+                </form>
+            </div>
+                        
+            
+            
+            
         </div>
         
     </body>
