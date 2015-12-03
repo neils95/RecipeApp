@@ -1,5 +1,0 @@
-1. Download netbeans IDE for Java EE application developement from the following link: https://netbeans.org/downloads/index.html
-2. While downloading, select the options to download glassfish and apache tomcat
-3. Download all the project files from github or the provided zip.
-4. Go to netbeans ide, click on file>open project and select the netbeans project from the folder it is stored in.
-5. 
