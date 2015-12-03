@@ -70,7 +70,7 @@ public class IngredientsTable {
 						state++;
 					} break;
 					case 1: if (line.contains("Rating:")) state++; break;
-					case 2: rrating = Integer.parseInt(line)+1; state++; break;
+					case 2: rrating = Integer.parseInt(line); state++; break;
 					case 3: 
 						if (line.contains("Ingredients")) {
 							state++;
@@ -143,6 +143,7 @@ public class IngredientsTable {
 			int state = 0, rrating = 0;
 
 			//Reads through text file
+                        line = input.readLine();
 			while ((line = input.readLine()) != null) {
 				recipeContents += line + "\n";
 				switch (state) {
@@ -152,7 +153,7 @@ public class IngredientsTable {
 						state++;
 					} break;
 					case 1: if (line.contains("Rating:")) state++; break;
-					case 2: rrating = Integer.parseInt(line)+1; state++; break;
+					case 2: rrating = Integer.parseInt(line); state++; break;
 					case 3: 
 						if (line.contains("Ingredients")) {
 							state++;

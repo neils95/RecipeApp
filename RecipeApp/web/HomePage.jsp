@@ -88,7 +88,7 @@
                         <div class="panel-heading">
                           <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#<%=collapse%>"><%=i%>. <%= rn.getName()%></a>
-                                <p style="float:right"><%= rn.getRank()-1 %></p>
+                                <p style="float:right"><%= rn.getRank() %></p>
                           </h4>
                         </div>
                         <div id="<%=collapse%>" class="panel-collapse collapse">
