@@ -11,11 +11,21 @@ Instructions to Run:
 2. While downloading, select the options to download glassfish and apache tomcat
 3. Download all the project files from github or the provided zip.
 4. Go to netbeans ide, click on file>open project and select the netbeans project from the folder it is stored in.
-5. Copy MasterRecipe.txt inot glassfish config folder
-6. Click on web in netbeans, click on homepage.jsp, then click run
+5. Copy MasterRecipe.txt into glassfish config folder on your laptop. 
+On my laptop the path was:  C:\Users\Neil\GlassFish_Server\glassfish\domains\domain1\config
+Also, in line 59 of FormSubmission.jsp change the following line 
+            saveFile ="C:/Users/Neil/GlassFish_Server/glassfish/domains/domain1/config/" +saveFile;
+to
+		
+            saveFile ="<Path of Glassfish config folder on your laprtop>" +saveFile;
+            
+6. Click on web in netbeans, right click on homepage.jsp, then click run. It should open up in the browser.
 
 
 //////////////////////////////////////////////////////////////////////////
+
+text file to check insert recipe is provided. It is called AlternateTextFile.txt.
+/////////////////////////////////////////////////////////////////////////
 
 
 InsertRecipeTemplate
