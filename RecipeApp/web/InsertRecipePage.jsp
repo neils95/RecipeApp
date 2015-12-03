@@ -28,7 +28,6 @@
             <div class="jumbotron">
                 <h1 id ="heading" >Join a global cookbook</h1>
                 <br><h2 id ="caption" ><small>Add your own recipe</small></h2>
-               
             </div>
             
             <div  id ="insertRecipeBox">
@@ -38,6 +37,8 @@
                     </div>
                     <div class="panel-body">
                         <center>
+                            <!-- form to upload a text file. The file gets sent to the server, and copied on the server.
+                            It is read from there and inserted into IngredientTable-->
                             <form name="submitRecipeForm" action="FormSubmission.jsp" enctype="multipart/form-data" method="POST">
                                 <input type="file" name="recipeFileUpload" value="" style="width:80%" />
                                 <br>

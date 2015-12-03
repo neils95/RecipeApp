@@ -24,7 +24,10 @@
         <title>RecipeApp</title>
         <script src="http://code.jquery.com/jquery-latest.js">   
         </script>
-
+        
+        <!-- JS code to implement autocomplete. Every time the user enters a character, the word in the search bar
+        is sent to the server which queries the trie and returns the top 5 ingredients with the particular prefix.
+        AJAX is used for this, only a part of the page is refreshed and not the entire page-->
         <script>
 
             $(document).ready(function() {                        
@@ -48,27 +51,27 @@
     </head>
     
     <%
+        //Create ingredient table from Master Recipe text file
         IngredientsTable t = new IngredientsTable("MasterRecipeList.txt");
-        //IngredientsTable t = new IngredientsTable();
-
         ArrayList<RecipeNode> r = new ArrayList<RecipeNode>();
-
-        r=t.getTopRecipes();
+        r=t.getTopRecipes();// R contains the top 8 recipes in the Master Recipe text file. This is displayed on left side of the page
     %>
     
     <body>
         <div class="container-fluid">
+            
             <!--Heading of page-->
             <div class="jumbotron" align="center" >
                 <h1 id ="Heading" >Recipe Application</h1>
                 <br><h2 id ="Caption" ><small>Search. Cook. Eat.</small></h2>
             </div>
            
-            <!--Search bar, buttons for search and insert-->
+            <!--Top 8 recipes,Search bar, buttons for search and insert-->
             
             <div class="row" id="searchBar">
                 <div class="col-sm-4">
                     
+                    <!-- Display the top 8 recipes on left side of page-->
                     <div class="panel-group" id="accordion" >
                 
                     <%
@@ -85,6 +88,7 @@
                         <div class="panel-heading">
                           <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#<%=collapse%>"><%=i%>. <%= rn.getName()%></a>
+                                <p style="float:right"><%= rn.getRank()-1 %></p>
                           </h4>
                         </div>
                         <div id="<%=collapse%>" class="panel-collapse collapse">
@@ -100,11 +104,10 @@
                     </div><!--end of panel group-->
                     
                 </div>
-                <!--Search bar-->
                 
+                <!--Search bar-->
                 <form name="Search" action="RecipePage.jsp" method="POST">
                     <div class ="col-sm-4">
-                       
                         <input id="user" type="text"  name="user"/>
                         <strong><h4 class="alert alert-success"><u>Ingredient Suggestions:</u> <div id="IngredientSuggestions"></div></h4></strong>
                     </div>

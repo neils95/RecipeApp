@@ -22,6 +22,7 @@
         <title>Form Submission</title>
     </head>
     <%
+        //the following code, receives a file from the server and copies it to the server location
         String saveFile = new String();
         String contentType = request.getContentType();
         if((contentType!=null) && (contentType.indexOf("multipart/form-data") >=0)){
@@ -70,9 +71,13 @@
             }
             
         }
+        //create ingredient table from existing Master RecipeList
         IngredientsTable t = new IngredientsTable("MasterRecipeList.txt");
+        
+        //insert recipes from the saved file into the Ingredient table
         t.insertRecipesFromFile(saveFile);
         
+        //Write the contents of the new IngredientTable in MasterRecipeList to keep it updated after insertion
         t.writePQToMaster("MasterRecipeList.txt");
 
         
@@ -81,9 +86,11 @@
         <div class="well well-sm" style="margin:15% 20% 0% 20%;border:dashed blueviolet"><center>
             <h1>Thank you for contributing to our application!</h1>
             <p>We would not be able to survive without your contribution. Our goal is to provide our customers with the latest recipes and your contribution helps us get closer to that goal. We hope you enjoyed using the application and please direct any feedback to recipe@bu.edu. </p>
+            <!--Redirect to homepage-->
             <a href="HomePage.jsp">
                 <input class ="btn btn-primary" type="button" value="Keep Searching" name="returnHome" />
             </a>
+            <!--Redirect to insert recipe page-->
             <a href="InsertRecipePage.jsp">
                 <input class ="btn btn-primary" type="button" value="Add more recipes" name="returnHome" />
             </a>

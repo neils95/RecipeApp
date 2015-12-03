@@ -24,18 +24,16 @@
     </head>
     
     <%
+        //create ingredient table from MasterRecipeList
         IngredientsTable t = new IngredientsTable("MasterRecipeList.txt");
-        //IngredientsTable t = new IngredientsTable();
-
+     
         ArrayList<RecipeNode> r = new ArrayList<RecipeNode>();
-
+        
+        //Read the contents of the searchbar and pass it on to server
         String str = request.getParameter("user");
-       
-
-        //System.out.println("With initial set:");
+        //get top recipes for the given ingredient
         r = t.getRecipes(str);
-        //System.out.println("\nRecipes with "+str+":");
-
+     
 
     %>
         
