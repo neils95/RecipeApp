@@ -1,7 +1,7 @@
 ﻿Recipe Search Apllication
 EC 504: Advanced Data Structures 
 Project ReadMe 
-Nicholas Musella, Joshua Klien, Neil Sang
+Neil Sanghrajka, Nicholas Musella, Joshua Klien
 
 /////////////////////////////////////////////////////////////////////////////
 
