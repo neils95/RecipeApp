@@ -2,7 +2,10 @@
 Neil Sanghrajka, Nicholas Musella, Joshua Klien
 
 This application allows users to search for ranked recipes based on ingredients. Instead of using a database, we designed and implemented data structures for search, insertions and deletions to improve our understanding of data structure concepts.
+
 Data is persisted using Java's Serializable interface.
+
+The initial datset was created by scraping www.allrecipes.com using Python and BeautifulSoup library.
 
 ###Installation:###
 
