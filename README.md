@@ -50,7 +50,7 @@ InsertRecipeTemplate.txt
 	***************
 
 
-###File description###
+###File description and API guide###
   * **MasterRecipeList.txt**
 
 	1024 recipes that are initially loaded with name, ingredients, directions and popularity/rank
